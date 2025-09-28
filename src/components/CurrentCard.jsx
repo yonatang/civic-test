@@ -16,6 +16,8 @@ export function CurrentCard() {
     const handleStar = () => dispatch(startQuestion())
 
     const isStarred = currentQuestion?.starred
+    const section = currentQuestion?.section || ''
+    const subsection = currentQuestion?.subsection || ''
     const answers = currentQuestion?.answer?.map((item, index) => <ListItem key={index}>{item}</ListItem>)
 
     return <>
@@ -28,6 +30,13 @@ export function CurrentCard() {
                         fill={isStarred ? "#b71c1c" : "#fff"} stroke="#1976d2" strokeWidth="2"/>
                 </svg>
             </div>
+            {(section || subsection) && (
+                <div className="card-meta">
+                    <span className="card-section">{section}</span>
+                    {section && subsection && <span className="card-meta-sep"> &middot; </span>}
+                    <span className="card-subsection">{subsection}</span>
+                </div>
+            )}
             <div className="card-header">
                 <span role="img" aria-label="USA">🇺🇸</span> Question #{currentQuestion.idx} / {questions.length}
             </div>

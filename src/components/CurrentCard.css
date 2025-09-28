@@ -96,6 +96,31 @@
     box-shadow: 0 4px 16px rgba(25, 118, 210, 0.15);
 }
 
+.card-meta {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 0.95rem;
+    color: #1976d2;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.card-section, .card-subsection {
+    color: #1976d2;
+    opacity: 0.85;
+}
+
+.card-meta-sep {
+    color: #b0bec5;
+    font-size: 1.1em;
+    margin: 0 2px;
+}
+
 @media (max-width: 600px) {
     .card {
         padding: 1rem 0.5rem;
