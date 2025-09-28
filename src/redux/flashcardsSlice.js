@@ -1,12 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {questions as q100} from "../data/q100.js";
+import {localDb} from "./localDb.js";
 
+const initialMode = "q100"
+const initialStarred = localDb.loadStarred(initialMode)
+const isZeroStarred = initialStarred.indexOf(0) !== -1
 const initialState = {
     questions: q100,
-    questionMode: 'q100',
+    questionMode: initialMode,
     currentQuestionIdx: 0,
-    currentQuestion: {...q100[0], idx: 1, starred: false},
-    starredQuestions: [],
+    currentQuestion: {...q100[0], idx: 1, starred: isZeroStarred},
+    starredQuestions: initialStarred,
     showStarredOnly: false,
     showAnswer: false
 }
@@ -44,12 +48,14 @@ export const flashcardsSlice = createSlice({
             let starred = [...state.starredQuestions]
             let starState
             if (starred.indexOf(currentIdx) !== -1) {
-                state.starredQuestions = starred.filter(idx => idx !== currentIdx)
+                starred = starred.filter(idx => idx !== currentIdx)
                 starState = false
             } else {
-                state.starredQuestions = [...starred, currentIdx]
+                starred = [...starred, currentIdx]
                 starState = true
             }
+            state.starredQuestions = starred
+            localDb.storeStarred(starred, state.questionMode)
             state.currentQuestion = {...state.currentQuestion, starred: starState}
         },
         toggleShowAnswer: (state, action) => {
