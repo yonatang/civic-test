@@ -24,17 +24,19 @@ export function CurrentCard() {
 
     return <>
         <div className="card">
-            <div className="card-star" onClick={handleStar} title={isStarred ? "Unstar" : "Star"}>
-                {isStarred ?
-                    <StarIcon color="error"/> :
-                    <StarBorderIcon color="error"/>
-                }
-            </div>
             {(section || subsection) && (
                 <div className="card-meta">
-                    <span className="card-section">{section}</span>
-                    {section && subsection && <span className="card-meta-sep"> &middot; </span>}
-                    <span className="card-subsection">{subsection}</span>
+                    <div className="card-meta-text">
+                        <span className="card-section">{section}</span>
+                        {section && subsection && <span className="card-meta-sep"> &middot; </span>}
+                        <span className="card-subsection">{subsection}</span>
+                    </div>
+                    <div className="card-star" onClick={handleStar} title={isStarred ? "Unstar" : "Star"}>
+                        {isStarred ?
+                            <StarIcon color="error"/> :
+                            <StarBorderIcon color="error"/>
+                        }
+                    </div>
                 </div>
             )}
             <div className="card-header">
