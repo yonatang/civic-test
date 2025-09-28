@@ -19,29 +19,89 @@ export const flashcardsSlice = createSlice({
     name: 'flashcardsSlice',
     initialState,
     reducers: {
-        prevQuestion: (state, action) => {
-            let currentIdx = state.currentQuestionIdx
-            if (currentIdx === 0) {
-                currentIdx = state.questions.length - 1
+        toggleShowStarredOnly: (state, action) => {
+            state.showStarredOnly = !state.showStarredOnly;
+            // When toggling, reset to first starred or first question
+            if (state.showStarredOnly) {
+                if (state.starredQuestions.length > 0) {
+                    const idx = state.starredQuestions[0];
+                    state.currentQuestionIdx = idx;
+                    state.currentQuestion = {
+                        ...state.questions[idx],
+                        idx: idx + 1,
+                        starred: true
+                    };
+                }
             } else {
-                currentIdx--
+                state.currentQuestionIdx = 0;
+                let starred = state.starredQuestions.indexOf(0) !== -1;
+                state.currentQuestion = {
+                    ...state.questions[0],
+                    idx: 1,
+                    starred
+                };
             }
-            state.showAnswer = false
-            state.currentQuestionIdx = currentIdx
-            let starred = state.starredQuestions.indexOf(currentIdx) !== -1
-            state.currentQuestion = {...state.questions[currentIdx], idx: currentIdx + 1, starred}
+            state.showAnswer = false;
+        },
+        prevQuestion: (state, action) => {
+            if (state.showStarredOnly) {
+                const starred = state.starredQuestions;
+                if (starred.length === 0) return;
+                let idx = starred.indexOf(state.currentQuestionIdx);
+                idx = idx === 0 ? starred.length - 1 : idx - 1;
+                const newIdx = starred[idx];
+                state.currentQuestionIdx = newIdx;
+                state.currentQuestion = {
+                    ...state.questions[newIdx],
+                    idx: newIdx + 1,
+                    starred: true
+                };
+            } else {
+                let currentIdx = state.currentQuestionIdx;
+                if (currentIdx === 0) {
+                    currentIdx = state.questions.length - 1;
+                } else {
+                    currentIdx--;
+                }
+                state.currentQuestionIdx = currentIdx;
+                let starred = state.starredQuestions.indexOf(currentIdx) !== -1;
+                state.currentQuestion = {
+                    ...state.questions[currentIdx],
+                    idx: currentIdx + 1,
+                    starred
+                };
+            }
+            state.showAnswer = false;
         },
         nextQuestion: (state, action) => {
-            let currentIdx = state.currentQuestionIdx
-            if (currentIdx === state.questions.length - 1) {
-                currentIdx = 0
+            if (state.showStarredOnly) {
+                const starred = state.starredQuestions;
+                if (starred.length === 0) return;
+                let idx = starred.indexOf(state.currentQuestionIdx);
+                idx = idx === starred.length - 1 ? 0 : idx + 1;
+                const newIdx = starred[idx];
+                state.currentQuestionIdx = newIdx;
+                state.currentQuestion = {
+                    ...state.questions[newIdx],
+                    idx: newIdx + 1,
+                    starred: true
+                };
             } else {
-                currentIdx++
+                let currentIdx = state.currentQuestionIdx;
+                if (currentIdx === state.questions.length - 1) {
+                    currentIdx = 0;
+                } else {
+                    currentIdx++;
+                }
+                state.currentQuestionIdx = currentIdx;
+                let starred = state.starredQuestions.indexOf(currentIdx) !== -1;
+                state.currentQuestion = {
+                    ...state.questions[currentIdx],
+                    idx: currentIdx + 1,
+                    starred
+                };
             }
-            state.showAnswer = false
-            state.currentQuestionIdx = currentIdx
-            let starred = state.starredQuestions.indexOf(currentIdx) !== -1
-            state.currentQuestion = {...state.questions[currentIdx], idx: currentIdx + 1, starred}
+            state.showAnswer = false;
         },
         startQuestion: (state, action) => {
             let currentIdx = state.currentQuestionIdx
@@ -77,4 +137,3 @@ export const selectors = {
     showAnswer: state => state.flashcards.showAnswer,
 }
 export default flashcardsSlice.reducer
-
