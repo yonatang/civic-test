@@ -27,7 +27,7 @@ export function CurrentCard() {
             <div className="card-star" onClick={handleStar} title={isStarred ? "Unstar" : "Star"}>
                 {isStarred ?
                     <StarIcon color="error"/> :
-                    <StarBorderIcon/>
+                    <StarBorderIcon color="error"/>
                 }
             </div>
             {(section || subsection) && (
