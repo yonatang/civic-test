@@ -1,9 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
 import {actions, selectors} from "../redux/flashcardsSlice.js";
 import "./CurrentCard.css";
-import {List, ListItem} from "@mui/material"; // Import the CSS file for custom styles
+import {List, ListItem} from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import {useSwipeable} from "react-swipeable";
 
 export function CurrentCard() {
     const questions = useSelector(selectors.questions)
@@ -22,8 +23,15 @@ export function CurrentCard() {
     const subsection = currentQuestion?.subsection || ''
     const answers = currentQuestion?.answer?.map((item, index) => <ListItem key={index}>{item}</ListItem>)
 
-    return <>
-        <div className="card">
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: handleNext,
+        onSwipedRight: handlePrev,
+        preventDefaultTouchmoveEvent: true,
+        trackMouse: true
+    });
+
+    return (
+        <div {...swipeHandlers} className="card">
             {(section || subsection) && (
                 <div className="card-meta">
                     <div className="card-meta-text">
@@ -64,5 +72,5 @@ export function CurrentCard() {
                 </div>
             </div>
         </div>
-    </>
+    )
 }
