@@ -1,0 +1,111 @@
+/* CurrentCard.css - Styles for the flashcard component */
+
+.card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 2rem 1rem;
+    margin: 2rem 0;
+    border: 2px solid #1a237e;
+    position: relative;
+}
+
+.card-header {
+    color: #b71c1c;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.card-question {
+    color: #1a237e;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.card-answer {
+    color: #1976d2;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-top: 1rem;
+    background: #e3eafc;
+    border-radius: 8px;
+    padding: 0.75rem;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.card-actions .left {
+    flex: 1;
+    text-align: left;
+}
+
+.card-actions .center {
+    flex: 1;
+    text-align: center;
+}
+
+.card-actions .right {
+    flex: 1;
+    text-align: right;
+}
+
+.button {
+    min-width: 80px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 2px solid #1976d2;
+    font-size: 1rem;
+    font-weight: 500;
+    background: #fff;
+    color: #1976d2;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: background 0.2s, color 0.2s;
+}
+
+.button:hover, .button:active {
+    background: #e3eafc;
+    color: #1a237e;
+}
+
+.card-star {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
+    transition: box-shadow 0.2s;
+}
+
+.card-star:hover {
+    box-shadow: 0 4px 16px rgba(25, 118, 210, 0.15);
+}
+
+@media (max-width: 600px) {
+    .card {
+        padding: 1rem 0.5rem;
+    }
+    .card-header, .card-question, .card-answer {
+        font-size: 1rem;
+    }
+    .button {
+        font-size: 0.95rem;
+        min-width: 70px;
+        padding: 0.4rem 0.7rem;
+    }
+}
