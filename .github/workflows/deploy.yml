@@ -24,11 +24,19 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '22.20.0'
           cache: 'npm'
 
+      - name: pin NPM
+        run: npm i -g npm@10.9.3
+
+      - name: Clean cache (once per run)
+        run: |
+            npm cache clean --force
+            rm -rf ~/.npm
+
       - name: Install
-        run: npm ci
+        run: npm ci --no-audit --no-fund --foreground-scripts
 
       - name: Build
         run: npm run build
