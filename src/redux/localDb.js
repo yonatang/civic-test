@@ -11,5 +11,18 @@ export const localDb = {
             }
         }
         return []
+    },
+    loadIndex: (mode, maxIndex) => {
+        let idx = localStorage.getItem(`currentQuestionIdx-${mode}`)
+        if (idx) {
+            idx = parseInt(idx)
+            if (!isNaN(idx) && idx >= 0 && idx < maxIndex) {
+                return idx
+            }
+        }
+        return 0
+    },
+    storeIndex: (index, mode) => {
+        localStorage.setItem(`currentQuestionIdx-${mode}`, index.toString())
     }
 }

@@ -4,12 +4,13 @@ import {localDb} from "./localDb.js";
 
 const initialMode = "q100"
 const initialStarred = localDb.loadStarred(initialMode)
-const isZeroStarred = initialStarred.indexOf(0) !== -1
+const initialIdx = localDb.loadIndex(initialMode, q100.length)
+const isZeroStarred = initialStarred.indexOf(initialIdx) !== -1
 const initialState = {
     questions: q100,
     questionMode: initialMode,
-    currentQuestionIdx: 0,
-    currentQuestion: {...q100[0], idx: 1, starred: isZeroStarred},
+    currentQuestionIdx: initialIdx,
+    currentQuestion: {...q100[initialIdx], idx: initialIdx + 1, starred: isZeroStarred},
     starredQuestions: initialStarred,
     showStarredOnly: false,
     showAnswer: false
@@ -71,6 +72,7 @@ export const flashcardsSlice = createSlice({
                     starred
                 };
             }
+            localDb.storeIndex(state.currentQuestionIdx, state.questionMode)
             state.showAnswer = false;
         },
         nextQuestion: (state, action) => {
@@ -101,6 +103,7 @@ export const flashcardsSlice = createSlice({
                     starred
                 };
             }
+            localDb.storeIndex(state.currentQuestionIdx, state.questionMode)
             state.showAnswer = false;
         },
         startQuestion: (state, action) => {
