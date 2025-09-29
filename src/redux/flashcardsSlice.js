@@ -112,6 +112,7 @@ export const flashcardsSlice = createSlice({
                 starState = false
             } else {
                 starred = [...starred, currentIdx]
+                starred.sort()
                 starState = true
             }
             state.starredQuestions = starred
