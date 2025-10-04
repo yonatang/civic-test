@@ -3,10 +3,15 @@ import {actions, selectors} from "../redux/flashcardsSlice.js";
 
 export function PageHeader(){
     const showStarredOnly = useSelector(selectors.showStarredOnly)
+    const questionMode = useSelector(selectors.questionMode)
     const dispatch = useDispatch()
-    const {toggleShowStarredOnly} = actions
+    const {toggleShowStarredOnly, switchQuestionMode} = actions
 
     const handleToggle = () => dispatch(toggleShowStarredOnly())
+    const handleModeSwitch = () => {
+        const newMode = questionMode === "q100" ? "q128" : "q100"
+        dispatch(switchQuestionMode(newMode))
+    }
 
     return (
         <div style={{
@@ -25,13 +30,22 @@ export function PageHeader(){
                 <span style={{marginRight: '0.5rem'}}>Test Flashcards</span>
                 <span role="img" aria-label="USA">🇺🇸</span>
             </div>
-            <button
-                className="button"
-                style={{fontSize: '1rem', padding: '0.3rem 1rem', marginTop: '0.5rem'}}
-                onClick={handleToggle}
-            >
-                {showStarredOnly ? "Show All" : "Show Only Starred"}
-            </button>
+            <div style={{display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '0.5rem'}}>
+                <button
+                    className="button"
+                    style={{fontSize: '1rem', padding: '0.3rem 1rem'}}
+                    onClick={handleModeSwitch}
+                >
+                    {questionMode === "q100" ? "Switch to 128 Questions" : "Switch to 100 Questions"}
+                </button>
+                <button
+                    className="button"
+                    style={{fontSize: '1rem', padding: '0.3rem 1rem'}}
+                    onClick={handleToggle}
+                >
+                    {showStarredOnly ? "Show All" : "Show Only Starred"}
+                </button>
+            </div>
         </div>
     )
 }

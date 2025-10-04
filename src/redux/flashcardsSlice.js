@@ -1,16 +1,23 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {questions as q100} from "../data/q100.js";
+import {questions as q128} from "../data/q128.js";
 import {localDb} from "./localDb.js";
 
+const questionSets = {
+    q100: q100,
+    q128: q128
+}
+
 const initialMode = "q100"
+const initialQuestions = questionSets[initialMode]
 const initialStarred = localDb.loadStarred(initialMode)
-const initialIdx = localDb.loadIndex(initialMode, q100.length)
+const initialIdx = localDb.loadIndex(initialMode, initialQuestions.length)
 const isZeroStarred = initialStarred.indexOf(initialIdx) !== -1
 const initialState = {
-    questions: q100,
+    questions: initialQuestions,
     questionMode: initialMode,
     currentQuestionIdx: initialIdx,
-    currentQuestion: {...q100[initialIdx], idx: initialIdx + 1, starred: isZeroStarred},
+    currentQuestion: {...initialQuestions[initialIdx], idx: initialIdx + 1, starred: isZeroStarred},
     starredQuestions: initialStarred,
     showStarredOnly: false,
     showAnswer: false
@@ -20,6 +27,31 @@ export const flashcardsSlice = createSlice({
     name: 'flashcardsSlice',
     initialState,
     reducers: {
+        switchQuestionMode: (state, action) => {
+            const newMode = action.payload;
+            if (newMode !== state.questionMode) {
+                // Switch to new question set
+                state.questionMode = newMode;
+                state.questions = questionSets[newMode];
+
+                // Load saved data for new mode
+                state.starredQuestions = localDb.loadStarred(newMode);
+                state.currentQuestionIdx = 0; // Start from first question
+                state.showStarredOnly = false; // Reset starred filter
+
+                // Update current question
+                const isStarred = state.starredQuestions.indexOf(0) !== -1;
+                state.currentQuestion = {
+                    ...state.questions[0],
+                    idx: 1,
+                    starred: isStarred
+                };
+
+                // Save the new index
+                localDb.storeIndex(0, newMode);
+                state.showAnswer = false;
+            }
+        },
         toggleShowStarredOnly: (state, action) => {
             state.showStarredOnly = !state.showStarredOnly;
             // When toggling, reset to first starred or first question
