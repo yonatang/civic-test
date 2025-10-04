@@ -6,7 +6,10 @@ export function PageFooter() {
     const questionMode = useSelector(selectors.questionMode)
     const showStarredOnly = useSelector(selectors.showStarredOnly)
     const randomOrder = useSelector(selectors.randomOrder)
+    const starredQuestions = useSelector(selectors.starredQuestions)
     const {toggleShowStarredOnly, switchQuestionMode, toggleRandomOrder} = actions
+
+    const hasStarredQuestions = starredQuestions.length > 0
 
     const handleToggle = () => dispatch(toggleShowStarredOnly())
     const handleModeSwitch = () => {
@@ -36,8 +39,14 @@ export function PageFooter() {
             </button>
             <button
                 className="button"
-                style={{fontSize: '1rem', padding: '0.3rem 1rem'}}
-                onClick={handleToggle}
+                style={{
+                    fontSize: '1rem',
+                    padding: '0.3rem 1rem',
+                    opacity: hasStarredQuestions ? 1 : 0.5,
+                    cursor: hasStarredQuestions ? 'pointer' : 'not-allowed'
+                }}
+                onClick={hasStarredQuestions ? handleToggle : undefined}
+                disabled={!hasStarredQuestions}
             >
                 {showStarredOnly ? "Show All" : "Show Only Starred"}
             </button>

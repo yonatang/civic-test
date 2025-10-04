@@ -302,6 +302,7 @@ export const selectors = {
     questions: state => state.flashcards.questions,
     questionMode: state => state.flashcards.questionMode,
     staredQuestions: state => state.flashcards.staredQuestions,
+    starredQuestions: state => state.flashcards.starredQuestions,
     currentQuestion: state => state.flashcards.currentQuestion,
     showStarredOnly: state => state.flashcards.showStarredOnly,
     showAnswer: state => state.flashcards.showAnswer,
