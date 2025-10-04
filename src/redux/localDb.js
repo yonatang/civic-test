@@ -24,5 +24,15 @@ export const localDb = {
     },
     storeIndex: (index, mode) => {
         localStorage.setItem(`currentQuestionIdx-${mode}`, index.toString())
+    },
+    storeMode: (mode) => {
+        localStorage.setItem('questionMode', mode)
+    },
+    loadMode: () => {
+        const mode = localStorage.getItem('questionMode')
+        if (mode === 'q100' || mode === 'q128') {
+            return mode
+        }
+        return 'q100' // default fallback
     }
 }

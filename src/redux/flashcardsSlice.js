@@ -8,7 +8,7 @@ const questionSets = {
     q128: q128
 }
 
-const initialMode = "q100"
+const initialMode = localDb.loadMode()
 const initialQuestions = questionSets[initialMode]
 const initialStarred = localDb.loadStarred(initialMode)
 const initialIdx = localDb.loadIndex(initialMode, initialQuestions.length)
@@ -33,6 +33,9 @@ export const flashcardsSlice = createSlice({
                 // Switch to new question set
                 state.questionMode = newMode;
                 state.questions = questionSets[newMode];
+
+                // Save the new mode to localStorage
+                localDb.storeMode(newMode);
 
                 // Load saved data for new mode
                 state.starredQuestions = localDb.loadStarred(newMode);
