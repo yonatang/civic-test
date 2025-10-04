@@ -36,19 +36,17 @@ export const flashcardsSlice = createSlice({
 
                 // Load saved data for new mode
                 state.starredQuestions = localDb.loadStarred(newMode);
-                state.currentQuestionIdx = 0; // Start from first question
+                state.currentQuestionIdx = localDb.loadIndex(newMode, questionSets[newMode].length);
                 state.showStarredOnly = false; // Reset starred filter
 
                 // Update current question
-                const isStarred = state.starredQuestions.indexOf(0) !== -1;
+                const isStarred = state.starredQuestions.indexOf(state.currentQuestionIdx) !== -1;
                 state.currentQuestion = {
-                    ...state.questions[0],
-                    idx: 1,
+                    ...state.questions[state.currentQuestionIdx],
+                    idx: state.currentQuestionIdx + 1,
                     starred: isStarred
                 };
 
-                // Save the new index
-                localDb.storeIndex(0, newMode);
                 state.showAnswer = false;
             }
         },
