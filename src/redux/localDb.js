@@ -34,5 +34,33 @@ export const localDb = {
             return mode
         }
         return 'q100' // default fallback
+    },
+    storeRandomOrder: (randomOrder) => {
+        localStorage.setItem('randomOrder', JSON.stringify(randomOrder))
+    },
+    loadRandomOrder: () => {
+        const randomOrder = localStorage.getItem('randomOrder')
+        if (randomOrder) {
+            try {
+                return JSON.parse(randomOrder)
+            } catch (e) {
+            }
+        }
+        return false
+    },
+    storeRandomSequence: (sequence, mode, type) => {
+        const key = `randomSequence-${mode}-${type}`
+        localStorage.setItem(key, JSON.stringify(sequence))
+    },
+    loadRandomSequence: (mode, type) => {
+        const key = `randomSequence-${mode}-${type}`
+        const sequence = localStorage.getItem(key)
+        if (sequence) {
+            try {
+                return JSON.parse(sequence)
+            } catch (e) {
+            }
+        }
+        return null
     }
 }

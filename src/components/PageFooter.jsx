@@ -4,14 +4,16 @@ import {actions, selectors} from "../redux/flashcardsSlice.js";
 export function PageFooter() {
     const dispatch = useDispatch()
     const questionMode = useSelector(selectors.questionMode)
-    const {toggleShowStarredOnly, switchQuestionMode} = actions
     const showStarredOnly = useSelector(selectors.showStarredOnly)
+    const randomOrder = useSelector(selectors.randomOrder)
+    const {toggleShowStarredOnly, switchQuestionMode, toggleRandomOrder} = actions
 
     const handleToggle = () => dispatch(toggleShowStarredOnly())
     const handleModeSwitch = () => {
         const newMode = questionMode === "q100" ? "q128" : "q100"
         dispatch(switchQuestionMode(newMode))
     }
+    const handleRandomToggle = () => dispatch(toggleRandomOrder())
     return <div style={{
         fontSize: '1.5rem',
         fontWeight: 700,
@@ -38,6 +40,13 @@ export function PageFooter() {
                 onClick={handleToggle}
             >
                 {showStarredOnly ? "Show All" : "Show Only Starred"}
+            </button>
+            <button
+                className="button"
+                style={{fontSize: '1rem', padding: '0.3rem 1rem'}}
+                onClick={handleRandomToggle}
+            >
+                {randomOrder ? "Sequential Order" : "Random Order"}
             </button>
         </div>
     </div>
