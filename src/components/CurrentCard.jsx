@@ -65,7 +65,7 @@ export function CurrentCard() {
                     <button className="button" onClick={handlePrev}>Prev</button>
                 </div>
                 <div className="center">
-                    <button className="button" onClick={handleShow}>Show</button>
+                    <button className="button" onClick={handleShow}>{showAnswer ? 'Hide' : 'Show'}</button>
                 </div>
                 <div className="right">
                     <button className="button" onClick={handleNext}>Next</button>
